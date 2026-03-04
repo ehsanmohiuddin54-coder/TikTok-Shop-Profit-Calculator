@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!--
+    ══ SITEMAP — tiktokprofitcalculator.com ══════════════════════════════════
+    Generated: March 2026
+    Submit this file to:
+      • Google Search Console → Sitemaps → https://tiktokprofitcalculator.com/sitemap.xml
+      • Bing Webmaster Tools  → Sitemaps → same URL
+
+    Place this file at: /public/sitemap.xml
+    It will be served at: https://tiktokprofitcalculator.com/sitemap.xml
+
+    Priority guide used:
+      1.0 — Home (most important, primary landing + calculator)
+      0.9 — Calculator page (core tool, highest user intent)
+      0.7 — About, FAQ (supporting content)
+      0.5 — Guide pages (referenced in calculator sidebar, future content)
+
+    changefreq guide:
+      weekly  — pages with fee structures that update periodically
+      monthly — supporting content that changes less often
+    ════════════════════════════════════════════════════════════════════════════
+  -->
+
+  <!-- Home / Landing Page -->
+  <url>
+    <loc>https://tiktokprofitcalculator.com/</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Calculator Page — highest user intent, core tool -->
+  <url>
+    <loc>https://tiktokprofitcalculator.com/calculator</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- About Page -->
+  <url>
+    <loc>https://tiktokprofitcalculator.com/about</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- FAQ Page -->
+  <url>
+    <loc>https://tiktokprofitcalculator.com/faq</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!--
+    ══ GUIDE PAGES ═══════════════════════════════════════════════════════════
+    These are referenced in the calculator sidebar as internal links.
+    Uncomment and activate once the pages are live.
+    ═════════════════════════════════════════════════════════════════════════
+
+  <url>
+    <loc>https://tiktokprofitcalculator.com/guides/tiktok-shop</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://tiktokprofitcalculator.com/guides/affiliate</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://tiktokprofitcalculator.com/guides/ads-roi</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  -->
+
+</urlset>

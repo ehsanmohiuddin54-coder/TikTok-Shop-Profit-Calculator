@@ -1,0 +1,57 @@
+# ══ robots.txt — tiktokprofitcalculator.com ══════════════════════════════════
+#
+# Place this file at: /public/robots.txt
+# It will be served at: https://tiktokprofitcalculator.com/robots.txt
+#
+# This file tells search engine crawlers which pages they can and cannot access.
+# Google, Bing, and all major crawlers check this file before indexing your site.
+#
+# ══ RULE: Allow all crawlers to index all public pages ════════════════════════
+
+User-agent: *
+Allow: /
+
+# ── Disallow non-public paths ──────────────────────────────────────────────────
+# These paths don't exist as public pages — blocking prevents crawl budget waste.
+
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /*.tsx$
+Disallow: /*.ts$
+Disallow: /api/
+
+# ── Allow critical static assets crawlers need for rendering ──────────────────
+# Googlebot renders JavaScript — it needs access to JS, CSS, and images.
+# Never block these or Google cannot fully render your React SPA.
+
+Allow: /*.js
+Allow: /*.css
+Allow: /*.png
+Allow: /*.svg
+Allow: /*.ico
+Allow: /*.webp
+
+# ── Sitemap location ──────────────────────────────────────────────────────────
+# Tells all crawlers exactly where your sitemap is.
+# Also submit this URL directly in Google Search Console and Bing Webmaster Tools.
+
+Sitemap: https://tiktokprofitcalculator.com/sitemap.xml
+
+# ══ CRAWLER-SPECIFIC RULES ════════════════════════════════════════════════════
+#
+# GPTBot (OpenAI) — disallow if you don't want your content used for AI training
+# Uncomment the lines below to opt out:
+#
+# User-agent: GPTBot
+# Disallow: /
+#
+# CCBot (Common Crawl — used by many AI training datasets)
+# User-agent: CCBot
+# Disallow: /
+#
+# Google-Extended (Google's AI training crawler, separate from Googlebot)
+# User-agent: Google-Extended
+# Disallow: /
+#
+# ════════════════════════════════════════════════════════════════════════════
