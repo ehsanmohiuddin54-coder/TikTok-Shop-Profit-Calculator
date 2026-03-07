@@ -4,125 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--
-      ══ FAVICON SETUP ═══════════════════════════════════════════════════════════
-
-      IMPORTANT — Vite public folder location:
-      Your favicon files must be in the ROOT-level /public folder, NOT /src/public.
-      Vite only serves /public (at root) as static assets at /.
-      If your files are in /src/public/, move them to /public/ at the project root.
-
-      Correct project structure:
-        my-project/
-        ├── public/
-        │   ├── favicon.svg          ← primary
-        │   ├── favicon.ico          ← fallback
-        │   ├── favicon-32x32.png
-        │   ├── favicon-16x16.png
-        │   ├── apple-touch-icon.png
-        │   └── og-image.png
-        ├── src/
-        │   └── ...
-        └── index.html
-
-      WHY RELATIVE PATHS (not absolute URLs):
-      Using https://tiktokprofitcalculator.com/favicon.svg as href means:
-        - Favicon won't show in local development (localhost)
-        - Favicon won't show in staging/preview environments
-        - If the domain changes, all favicons break
-      Relative paths (/favicon.svg) work everywhere — Vite resolves them from
-      the public folder automatically in both dev and production builds.
-      ════════════════════════════════════════════════════════════════════════════
-    -->
-
-    <!-- Primary favicon — SVG scales perfectly at all sizes, supported by all modern browsers -->
+    <!-- FAVICONS -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- ICO fallback — required for older browsers and Windows taskbar pinning -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-
-    <!-- PNG favicons — used by some browsers and favicon aggregators -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-
-    <!--
-      Apple Touch Icon — displayed when users add the site to their iOS home screen.
-      Also used by some Android browsers. 180x180px is the recommended size.
-      No sizes attribute needed — Apple uses the largest available automatically.
-    -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-    <!--
-      Web App Manifest — enables "Add to Home Screen" on Android Chrome with
-      the correct icon, name, and theme colour. Create /public/site.webmanifest
-      with your app name and icon references.
-    -->
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Theme colour — colours the browser chrome on Android Chrome and Samsung Browser -->
     <meta name="theme-color" content="#FF0050" />
 
-    <!--
-      ══ SEO META TAGS ════════════════════════════════════════════════════════════
+    <!-- SEO -->
+    <title>TikTok Shop Profit Calculator | Free US, UK & EU Fee Tool</title>
 
-      Title — keep under 60 characters so Google doesn't truncate it.
-      Primary keyword "TikTok Shop Profit Calculator" front-loaded.
-    -->
-    <title>TikTok Shop Profit Calculator  | Free US, UK & EU Fee Tool</title>
+    <link rel="canonical" href="https://shopearnings.com/" />
 
-    <!--
-      Canonical URL — tells Google this is the authoritative version of the page.
-      Prevents duplicate content issues if the site is ever accessible via
-      multiple URLs (www vs non-www, http vs https, trailing slash etc.)
-    -->
-    <link rel="canonical" href="https://tiktokprofitcalculator.com/" />
-
-    <!--
-      Meta description — shown in Google search results under the page title.
-      Keep under 155 characters. Include primary keyword naturally.
-      This is the ONLY place meta description works — inside <head>, NOT in JSX.
-    -->
     <meta
       name="description"
       content="Free TikTok Shop profit calculator for US, UK & EU sellers. Calculate net profit after TikTok commission, FBT fees, affiliate costs, and ad spend — updated for 2026 fee structures."
     />
 
-    <!--
-      Keywords meta — Google ignores this for ranking but Bing still reads it.
-      Keep it relevant and concise. Do NOT stuff hundreds of variations here.
-    -->
     <meta
       name="keywords"
       content="TikTok Shop profit calculator, TikTok Shop fee calculator, TikTok Shop commission calculator, TikTok seller calculator, FBT fees, TikTok Shop UK, TikTok Shop EU, TikTok Shop US 2026"
     />
 
-    <!-- Robots — tells all crawlers to index the page and follow all links -->
     <meta name="robots" content="index, follow" />
 
-    <!--
-      ══ OPEN GRAPH (Facebook, LinkedIn, WhatsApp, Slack previews) ══════════════
-      og:title and og:description can differ from the page title/meta description.
-      og:image should be 1200×630px for best display across all platforms.
-    -->
+    <!-- OPEN GRAPH -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://tiktokprofitcalculator.com/" />
+    <meta property="og:url" content="https://shopearnings.com/" />
     <meta property="og:site_name" content="TikTok Shop Profit Calculator" />
     <meta property="og:title" content="TikTok Shop Profit Calculator 2026 | Free US, UK & EU Tool" />
     <meta
       property="og:description"
       content="Calculate your exact TikTok Shop net profit after all fees — commission, FBT, affiliate commissions, and ad spend. Free tool for US, UK, and EU sellers."
     />
-    <meta property="og:image" content="https://tiktokprofitcalculator.com/og-image.png" />
+    <meta property="og:image" content="https://shopearnings.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="TikTok Shop Profit Calculator — Free tool for US, UK and EU sellers" />
     <meta property="og:locale" content="en_US" />
 
-    <!--
-      ══ TWITTER / X CARD ════════════════════════════════════════════════════════
-      summary_large_image shows a full-width image preview in tweets.
-      twitter:image should be 1200×600px minimum, under 5MB.
-    -->
+    <!-- TWITTER / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@tiktokprofitcalc" />
     <meta name="twitter:title" content="TikTok Shop Profit Calculator 2026" />
@@ -130,24 +54,18 @@
       name="twitter:description"
       content="Calculate TikTok Shop profit after all fees — commission, FBT, affiliate, and ad spend. Free for US, UK & EU sellers."
     />
-    <meta name="twitter:image" content="https://tiktokprofitcalculator.com/og-image.png" />
+    <meta name="twitter:image" content="https://shopearnings.com/og-image.png" />
     <meta name="twitter:image:alt" content="TikTok Shop Profit Calculator" />
 
-    <!--
-      ══ WEBSITE-LEVEL STRUCTURED DATA ═══════════════════════════════════════════
-      WebSite schema enables the Google Sitelinks Search Box if Google decides
-      to show it. Organization schema builds brand E-E-A-T signals.
-      Page-level schemas (FAQPage, SoftwareApplication) are injected per-page
-      via useEffect in each component (LandingPage, CalculatorPage, AboutPage).
-    -->
+    <!-- STRUCTURED DATA -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://tiktokprofitcalculator.com/#website",
-          "url": "https://tiktokprofitcalculator.com/",
+          "@id": "https://shopearnings.com/#website",
+          "url": "https://shopearnings.com/",
           "name": "TikTok Shop Profit Calculator",
           "description": "Free TikTok Shop profit calculator for US, UK and EU sellers. Calculate net profit after platform fees, affiliate commissions, FBT costs, and ad spend.",
           "inLanguage": "en-US",
@@ -155,19 +73,19 @@
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://tiktokprofitcalculator.com/?q={search_term_string}"
+              "urlTemplate": "https://shopearnings.com/?q={search_term_string}"
             },
             "query-input": "required name=search_term_string"
           }
         },
         {
           "@type": "Organization",
-          "@id": "https://tiktokprofitcalculator.com/#organization",
+          "@id": "https://shopearnings.com/#organization",
           "name": "TikTok Shop Profit Calculator",
-          "url": "https://tiktokprofitcalculator.com/",
+          "url": "https://shopearnings.com/",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://tiktokprofitcalculator.com/apple-touch-icon.png",
+            "url": "https://shopearnings.com/apple-touch-icon.png",
             "width": 180,
             "height": 180
           },
