@@ -26,8 +26,8 @@ export default function AboutPage() {
       '@graph': [
         {
           '@type': 'WebPage',
-          '@id': 'https://tiktokprofitcalculator.com/about',
-          url: 'https://tiktokprofitcalculator.com/about',
+          '@id': 'https://shopearnings.com/about',
+          url: 'https://shopearnings.com/about',
           name: 'About TikTok Shop Profit Calculator — Our Mission & Team',
           description:
             'Learn about the team behind TikTok Shop Profit Calculator. We help 18,000+ US, UK, and EU sellers understand true net profit after TikTok fees, commissions, and FBT costs.',
@@ -39,22 +39,22 @@ export default function AboutPage() {
                 '@type': 'ListItem',
                 position: 1,
                 name: 'Home',
-                item: 'https://tiktokprofitcalculator.com/',
+                item: 'https://shopearnings.com/',
               },
               {
                 '@type': 'ListItem',
                 position: 2,
                 name: 'About',
-                item: 'https://tiktokprofitcalculator.com/about',
+                item: 'https://shopearnings.com/about',
               },
             ],
           },
         },
         {
           '@type': 'Organization',
-          '@id': 'https://tiktokprofitcalculator.com/#organization',
+          '@id': 'https://shopearnings.com/#organization',
           name: 'TikTok Shop Profit Calculator',
-          url: 'https://tiktokprofitcalculator.com',
+          url: 'https://shopearnings.com',
           description:
             'A team of e-commerce veterans and TikTok Shop specialists providing accurate profit calculation tools for sellers in the US, UK, and EU markets.',
           foundingDate: '2024',

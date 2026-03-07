@@ -58,7 +58,6 @@ export default function FAQPage() {
     }
   ];
 
-  // Structured data for FAQ schema
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -74,15 +73,13 @@ export default function FAQPage() {
 
   return (
     <>
-      {/* Structured data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* Semantic HTML with proper heading structure */}
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        {/* Page header with semantic structure */}
+        
         <header className="mb-12">
           <div className="flex items-center">
             <div 
@@ -100,7 +97,6 @@ export default function FAQPage() {
           </div>
         </header>
 
-        {/* Main FAQ content */}
         <main>
           <section 
             aria-label="TikTok Shop fee and profitability questions"
@@ -137,7 +133,6 @@ export default function FAQPage() {
             ))}
           </section>
 
-          {/* Contact section - email removed */}
           <section 
             aria-label="Contact and support information"
             className="mt-16 p-10 bg-gray-50 rounded-[2rem] border border-black/5 flex flex-col md:flex-row items-center justify-between"
@@ -148,18 +143,19 @@ export default function FAQPage() {
                 Visit our support center for more information about TikTok Shop fees and calculations.
               </p>
             </div>
+
             <a 
-              href="/support"
+              href="https://shopearnings.com/support"
               className="mt-6 md:mt-0 inline-flex items-center px-6 py-3 bg-black text-white rounded-full font-bold hover:bg-[#FF0050] transition-colors"
               aria-label="Visit support center"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
               Get Help
             </a>
+
           </section>
         </main>
 
-        {/* Footer with disclaimer */}
         <footer className="text-xs text-gray-400 mt-8 text-center">
           <p>
             *Information updated for 2026 TikTok Shop fee structure. 
@@ -167,12 +163,12 @@ export default function FAQPage() {
             Always verify current rates in your TikTok Seller Center.
           </p>
         </footer>
+
       </article>
     </>
   );
 }
 
-// Metadata for the page (if using Next.js or similar)
 export const metadata = {
   title: 'TikTok Shop FAQ: Fees, Commissions & Profit Calculator Guide',
   description: 'Complete guide to TikTok Shop fees, commissions, FBT costs, and profitability. Updated for 2026 rates. Learn how to calculate your true profit margin.',

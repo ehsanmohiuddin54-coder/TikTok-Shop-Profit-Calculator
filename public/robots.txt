@@ -1,7 +1,7 @@
-# ══ robots.txt — tiktokprofitcalculator.com ══════════════════════════════════
+# ══ robots.txt — shopearnings.com ══════════════════════════════════
 #
 # Place this file at: /public/robots.txt
-# It will be served at: https://tiktokprofitcalculator.com/robots.txt
+# It will be served at: https://shopearnings.com.com/robots.txt
 #
 # This file tells search engine crawlers which pages they can and cannot access.
 # Google, Bing, and all major crawlers check this file before indexing your site.
@@ -36,7 +36,7 @@ Allow: /*.webp
 # Tells all crawlers exactly where your sitemap is.
 # Also submit this URL directly in Google Search Console and Bing Webmaster Tools.
 
-Sitemap: https://tiktokprofitcalculator.com/sitemap.xml
+Sitemap: https://shopearnings.com/sitemap.xml
 
 # ══ CRAWLER-SPECIFIC RULES ════════════════════════════════════════════════════
 #

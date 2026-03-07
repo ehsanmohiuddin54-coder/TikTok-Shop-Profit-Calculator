@@ -72,13 +72,13 @@ export default function LandingPage({ onStart }: LandingPageProps) {
       '@graph': [
         {
           '@type': 'WebPage',
-          '@id': 'https://tiktokprofitcalculator.com/',
-          url: 'https://tiktokprofitcalculator.com/',
+          '@id': 'https://shopearnings.com/',
+          url: 'https://shopearnings.com/',
           name: 'TikTok Shop Profit Calculator 2026 — Free US, UK & EU Fee Tool',
           description:
             'Free TikTok Shop profit calculator. Calculate net profit after platform commission, FBT fees, affiliate commissions, and ad spend for US, UK, and EU sellers.',
           inLanguage: 'en-US',
-          isPartOf: { '@id': 'https://tiktokprofitcalculator.com/#website' },
+          isPartOf: { '@id': 'https://shopearnings.com/#website' },
           breadcrumb: {
             '@type': 'BreadcrumbList',
             itemListElement: [
@@ -86,31 +86,31 @@ export default function LandingPage({ onStart }: LandingPageProps) {
                 '@type': 'ListItem',
                 position: 1,
                 name: 'Home',
-                item: 'https://tiktokprofitcalculator.com/',
+                item: 'https://shopearnings.com/',
               },
             ],
           },
         },
         {
           '@type': 'WebSite',
-          '@id': 'https://tiktokprofitcalculator.com/#website',
-          url: 'https://tiktokprofitcalculator.com/',
+          '@id': 'https://shopearnings.com/#website',
+          url: 'https://shopearnings.com/',
           name: 'TikTok Shop Profit Calculator',
           publisher: {
             '@type': 'Organization',
             name: 'TikTok Shop Profit Calculator',
-            url: 'https://tiktokprofitcalculator.com/',
+            url: 'https://shopearnings.com/',
           },
         },
         {
           '@type': 'SoftwareApplication',
-          '@id': 'https://tiktokprofitcalculator.com/#app',
+          '@id': 'https://shopearnings.com/#app',
           name: 'TikTok Shop Profit Calculator 2026',
           description:
             'Free TikTok Shop profit calculator for sellers in the US, UK, and EU. Calculate net profit after platform fees, affiliate commissions, FBT costs, and advertising spend with 2026 fee structures.',
           applicationCategory: 'BusinessApplication',
           operatingSystem: 'Web',
-          url: 'https://tiktokprofitcalculator.com',
+          url: 'https://shopearnings.com',
           softwareVersion: '3.0',
           featureList: [
             'Net profit calculation after all TikTok Shop fees',
@@ -125,7 +125,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           creator: {
             '@type': 'Organization',
             name: 'TikTok Shop Profit Calculator',
-            url: 'https://tiktokprofitcalculator.com',
+            url: 'https://shopearnings.com',
           },
           offers: {
             '@type': 'Offer',

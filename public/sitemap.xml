@@ -8,11 +8,11 @@
     ══ SITEMAP — tiktokprofitcalculator.com ══════════════════════════════════
     Generated: March 2026
     Submit this file to:
-      • Google Search Console → Sitemaps → https://tiktokprofitcalculator.com/sitemap.xml
+      • Google Search Console → Sitemaps → https://shopearnings.com/sitemap.xml
       • Bing Webmaster Tools  → Sitemaps → same URL
 
     Place this file at: /public/sitemap.xml
-    It will be served at: https://tiktokprofitcalculator.com/sitemap.xml
+    It will be served at: https://shopearnings.com/sitemap.xml
 
     Priority guide used:
       1.0 — Home (most important, primary landing + calculator)
@@ -28,7 +28,7 @@
 
   <!-- Home / Landing Page -->
   <url>
-    <loc>https://tiktokprofitcalculator.com/</loc>
+    <loc>https://shopearnings.com/</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -36,7 +36,7 @@
 
   <!-- Calculator Page — highest user intent, core tool -->
   <url>
-    <loc>https://tiktokprofitcalculator.com/calculator</loc>
+    <loc>https://shopearnings.com/calculator</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -44,7 +44,7 @@
 
   <!-- About Page -->
   <url>
-    <loc>https://tiktokprofitcalculator.com/about</loc>
+    <loc>https://shopearnings.com/about</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -52,7 +52,7 @@
 
   <!-- FAQ Page -->
   <url>
-    <loc>https://tiktokprofitcalculator.com/faq</loc>
+    <loc>https://shopearnings.com/faq</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -65,21 +65,21 @@
     ═════════════════════════════════════════════════════════════════════════
 
   <url>
-    <loc>https://tiktokprofitcalculator.com/guides/tiktok-shop</loc>
+    <loc>https://shopearnings.com/guides/tiktok-shop</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://tiktokprofitcalculator.com/guides/affiliate</loc>
+    <loc>https://shopearnings.com/guides/affiliate</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://tiktokprofitcalculator.com/guides/ads-roi</loc>
+    <loc>https://shopearnings.com/guides/ads-roi</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

@@ -75,14 +75,6 @@ export default function CalculatorPage() {
   const [results, setResults] = useState<CalculationResults>(calculateProfit(inputs));
   const [isExporting, setIsExporting] = useState(false);
 
-  // ── Structured data injected into <head> ──────────────────────────────────
-  // FIX 1: The original code used a const object + <script dangerouslySetInnerHTML>
-  // placed inside JSX body. Google does NOT parse <script> tags in the React
-  // component body as structured data — they must be in <head>.
-  // useEffect + document.head.appendChild is the correct SPA pattern.
-  //
-  // FIX 2: Upgraded from bare FAQPage to a @graph with WebPage + BreadcrumbList
-  // so Google understands the page's position in the site hierarchy.
   useEffect(() => {
     const existing = document.getElementById('calculator-structured-data');
     if (existing) document.head.removeChild(existing);
@@ -95,8 +87,8 @@ export default function CalculatorPage() {
       '@graph': [
         {
           '@type': 'WebPage',
-          '@id': 'https://tiktokprofitcalculator.com/calculator',
-          url: 'https://tiktokprofitcalculator.com/calculator',
+          '@id': 'https://shopearnings.com/calculator',
+          url: 'https://shopearnings.com/calculator',
           name: 'Free TikTok Shop Profit Calculator 2026 | US, UK & EU Fee Tool',
           description:
             'Calculate TikTok Shop profit after all fees — commission, FBT fulfillment, affiliate commissions, and ad spend. Free tool for US, UK & EU sellers with 2026 fee structures.',
@@ -104,8 +96,8 @@ export default function CalculatorPage() {
           breadcrumb: {
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home',               item: 'https://tiktokprofitcalculator.com/' },
-              { '@type': 'ListItem', position: 2, name: 'Profit Calculator',  item: 'https://tiktokprofitcalculator.com/calculator' },
+              { '@type': 'ListItem', position: 1, name: 'Home',               item: 'https://shopearnings.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Profit Calculator',  item: 'https://shopearnings.com/calculator' },
             ],
           },
         },
@@ -205,7 +197,7 @@ export default function CalculatorPage() {
     }));
   };
 
-  // ── PDF Export (unchanged logic) ─────────────────────────────────────────────
+  // ── PDF Export ─────────────────────────────────────────────────────────────
   const exportPDF = () => {
     if (isExporting) return;
     setIsExporting(true);
@@ -243,7 +235,7 @@ export default function CalculatorPage() {
       setFill('#FF0050'); pdf.rect(0, 0, W, 28, 'F');
       bold(16); setTxt('#FFFFFF'); pdf.text('TikTok Shop Profit Report', margin, 12);
       normal(8); setTxt('#FFB3C7'); pdf.text(`Region: ${inputs.region}  |  Category: ${inputs.category}  |  Generated: ${dateStr}`, margin, 19);
-      bold(8);   setTxt('#FFFFFF'); pdf.text('tiktokprofitcalculator.com', W - margin, 19, { align: 'right' });
+      bold(8);   setTxt('#FFFFFF'); pdf.text('shopearnings.com', W - margin, 19, { align: 'right' });
       y = 34;
 
       const boxW = (contentW - 4) / 2;
@@ -380,7 +372,7 @@ export default function CalculatorPage() {
         pdf.setPage(p);
         setFill('#FF0050'); pdf.rect(0, H - 10, W, 10, 'F');
         normal(7); setTxt('#FFFFFF');
-        pdf.text('TikTok Shop Profit Calculator - tiktokprofitcalculator.com', margin, H - 3.5);
+        pdf.text('TikTok Shop Profit Calculator - shopearnings.com', margin, H - 3.5);
         pdf.text(`Page ${p} of ${totalPages}`, W - margin, H - 3.5, { align: 'right' });
       }
       pdf.save(`TikTok-Profit-Report-${inputs.region}-${now.toISOString().split('T')[0]}.pdf`);
@@ -416,99 +408,15 @@ export default function CalculatorPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
-      {/*
-        ══ SEO FIX SUMMARY ════════════════════════════════════════════════════════
-
-        FIX 1 — Schema in <head> not JSX body (critical):
-          BEFORE: const faqSchema = {...}; then <script dangerouslySetInnerHTML> in JSX.
-          WHY WRONG: React renders <script> tags in JSX as part of the DOM body, not
-          <head>. Google's structured data parser only reads schema from <head> or from
-          scripts that appear before </body> at parse time — a React SPA's injected body
-          scripts are unreliable. The spec requires JSON-LD in <head>.
-          AFTER: useEffect + document.head.appendChild (same pattern as LandingPage).
-
-        FIX 2 — Hidden div with meta tags and duplicate H1 (penalty risk):
-          BEFORE: <div className="hidden"><h1>...</h1><meta name="description" .../><meta name="keywords" .../></div>
-          WHY WRONG: Three separate violations:
-            (a) <meta> tags inside a <div> are completely ignored by all browsers
-                and crawlers — meta tags only function inside <head>.
-            (b) A hidden <h1> means the page technically has two H1s, but the real one
-                is invisible — Google may treat the page as having no readable H1.
-            (c) A hidden keyword list is textbook keyword stuffing / cloaking.
-          AFTER: All removed. Meta description/keywords belong in index.html <head>.
-          The visible H1 below is now the single, correct H1 for this page.
-
-        FIX 3 — Form labels not associated to inputs (accessibility + SEO):
-          BEFORE: <label> had no htmlFor; inputs had no id attribute.
-          WHY WRONG: Unassociated labels mean Google cannot determine what each
-          input is for. Screen readers also cannot announce the field purpose.
-          AFTER: Every label has htmlFor="X" and every input has id="X".
-
-        FIX 4 — Toggle buttons missing role/aria (accessibility):
-          BEFORE: Plain <button> with no role, no aria-checked, no aria-label.
-          AFTER: role="switch", aria-checked, aria-labelledby on all toggle buttons.
-
-        FIX 5 — Results panel missing live region + wrong element type:
-          BEFORE: Large profit value used <h3> — it is dynamic data, not a heading.
-          AFTER: <p> with aria-label. Container has aria-live="polite".
-
-        FIX 6 — Results column not a landmark:
-          BEFORE: Plain <div> wrapping the entire results panel.
-          AFTER: <aside> with aria-label — creates a named complementary landmark.
-
-        FIX 7 — Chart legend not semantic:
-          BEFORE: Plain <div> list of colour swatches.
-          AFTER: <ul>/<li> list with aria-label="Chart legend".
-
-        FIX 8 — Monthly projection label/value pairs not semantic:
-          BEFORE: <span> pairs inside plain divs.
-          AFTER: <dl>/<dt>/<dd> — correct for term/definition (label/value) pairs.
-
-        FIX 9 — Results card KPIs not semantic:
-          BEFORE: Plain <p> / <div> pairs.
-          AFTER: <dl>/<dt>/<dd> for break-even/monthly figures.
-
-        FIX 10 — ROAS section label/value pairs not semantic:
-          BEFORE: <p> opacity-80 labels + <p> values in divs.
-          AFTER: <dl>/<dt>/<dd> with aria-live="polite" on the whole container.
-
-        FIX 11 — Related Resources section not a nav landmark:
-          BEFORE: Plain <div> with an emoji heading "📚 Related Resources".
-          AFTER: <nav aria-label="..."> with clean <h2> (no emoji in headings).
-
-        FIX 12 — Fulfillment buttons missing aria-pressed:
-          BEFORE: No pressed state communicated to assistive tech.
-          AFTER: aria-pressed={true/false} on both fulfillment type buttons.
-
-        FIX 13 — Section headings missing aria-labelledby linkage:
-          BEFORE: Sections had no id/aria-labelledby connecting them to their H2.
-          AFTER: Each section has aria-labelledby="section-id" and the H2 has that id.
-
-        FIX 14 — All decorative icons now have aria-hidden="true":
-          Screen readers will skip purely decorative lucide icons.
-        ══════════════════════════════════════════════════════════════════════════
-      */}
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* ── PAGE HEADER ───────────────────────────────────────────────────── */}
         <header className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            {/*
-              Single visible H1 — primary keyword "TikTok Shop Profit Calculator"
-              front-loaded. "(Updated for 2026)" adds freshness signal inline.
-              No duplicate hidden H1 anywhere on the page.
-            */}
             <h1 className="text-4xl font-black mb-2">
               TikTok Shop Profit Calculator{' '}
               <span className="text-sm font-normal text-gray-500 ml-2">Updated for 2026</span>
             </h1>
-            {/*
-              This visible subtitle replaces the hidden <meta name="keywords"> div.
-              It covers "free", "US UK EU", "new seller discounts", "FBT fees",
-              "ROAS calculator" as natural readable phrases — crawlable and useful.
-            */}
             <p className="text-gray-600">
               Free &amp; Accurate · US, UK &amp; EU Commission Rates · New Seller Discounts · FBT Fees · ROAS Calculator
             </p>
@@ -800,7 +708,6 @@ export default function CalculatorPage() {
                 </div>
               )}
 
-              {/* fieldset/legend — semantically correct for grouped inputs */}
               <fieldset className="mt-6 pt-6 border-t border-black/5">
                 <legend className="font-bold mb-4 flex items-center">
                   <RefreshCw className="w-4 h-4 mr-2" aria-hidden="true" />
@@ -844,7 +751,6 @@ export default function CalculatorPage() {
                 Step 4: Marketing &amp; Ads
               </h2>
 
-              {/* ROAS Mode Toggle */}
               <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
@@ -925,7 +831,6 @@ export default function CalculatorPage() {
                 </div>
               </div>
 
-              {/* ROAS Live Display */}
               {inputs.enableAdsMode && (
                 <div className="mt-6 p-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl"
                   aria-live="polite" aria-label="Live ROAS calculation results">
@@ -960,12 +865,10 @@ export default function CalculatorPage() {
           </div>
 
           {/* ── RIGHT COLUMN: RESULTS ─────────────────────────────────────────── */}
-          {/* FIXED: <aside> is the correct landmark for supplementary/complementary content */}
           <aside className="w-full lg:w-[40%]" aria-label="TikTok Shop profit calculation results">
             <div className="sticky top-24 space-y-6">
 
               {/* Main Results Card */}
-              {/* FIXED: aria-live="polite" — signals dynamic updating to screen readers + Google */}
               <div className="bg-black text-white rounded-[2.5rem] p-10 shadow-2xl overflow-hidden relative"
                 aria-live="polite" aria-label="Live profit calculation summary">
                 <div aria-hidden="true" className="absolute top-0 right-0 w-32 h-32 bg-[#FF0050] blur-[80px] opacity-20" />
@@ -973,7 +876,6 @@ export default function CalculatorPage() {
                   <div className="flex justify-between items-start mb-10">
                     <div>
                       <p className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-1">Net Profit Per Unit</p>
-                      {/* FIXED: <p> not <h3> — this is a dynamic data value, not a structural heading */}
                       <p className={`text-6xl font-black ${results.netProfit >= 0 ? 'text-white' : 'text-red-500'}`}
                         aria-label={`Net profit per unit: ${regionData.symbol}${results.netProfit.toFixed(2)}`}>
                         {regionData.symbol}{results.netProfit.toFixed(2)}
@@ -988,7 +890,6 @@ export default function CalculatorPage() {
                     </div>
                   </div>
 
-                  {/* FIXED: dl/dt/dd for KPI label-value pairs */}
                   <dl className="grid grid-cols-2 gap-8 mb-10">
                     <div>
                       <dt className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Break-Even Price</dt>
@@ -1051,7 +952,6 @@ export default function CalculatorPage() {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-                {/* FIXED: semantic <ul>/<li> for chart legend */}
                 <ul className="grid grid-cols-2 gap-4 mt-6" aria-label="Chart legend">
                   {chartData.map((item, i) => (
                     <li key={i} className="flex items-center text-xs list-none">
@@ -1068,7 +968,6 @@ export default function CalculatorPage() {
                   <TrendingUp className="w-5 h-5 mr-2" aria-hidden="true" />
                   Monthly Profit Projection
                 </h2>
-                {/* FIXED: dl/dt/dd for projected label-value pairs */}
                 <dl className="space-y-6">
                   {[
                     { label: 'Total Revenue', value: `${regionData.symbol}${results.monthlyRevenue.toLocaleString()}`, barColor: 'bg-black',     pct: 100,                                                              cls: '' },
@@ -1088,8 +987,7 @@ export default function CalculatorPage() {
                 </dl>
               </div>
 
-              {/* Related Resources — proper <nav> landmark */}
-              {/* FIXED: <nav> not <div>; clean <h2> with icon instead of emoji heading */}
+              {/* Related Resources */}
               <nav aria-label="Related TikTok Shop seller resources" className="bg-white rounded-3xl p-6 border border-black/5 shadow-sm">
                 <h2 className="font-bold text-sm mb-4 flex items-center gap-2">
                   <Calculator className="w-4 h-4 text-[#FF0050]" aria-hidden="true" />
