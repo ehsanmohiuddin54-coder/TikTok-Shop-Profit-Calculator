@@ -144,15 +144,6 @@ export default function FAQPage() {
               </p>
             </div>
 
-            <a 
-              href="https://shopearnings.com/support"
-              className="mt-6 md:mt-0 inline-flex items-center px-6 py-3 bg-black text-white rounded-full font-bold hover:bg-[#FF0050] transition-colors"
-              aria-label="Visit support center"
-            >
-              <MessageCircle className="w-5 h-5 mr-2" />
-              Get Help
-            </a>
-
           </section>
         </main>
 
