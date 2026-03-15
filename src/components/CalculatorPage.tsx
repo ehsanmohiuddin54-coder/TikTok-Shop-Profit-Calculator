@@ -24,6 +24,9 @@ import {
   Sparkles,
   Calculator,
   ExternalLink,
+  Share2,
+  Target,
+  AlertCircle,
 } from 'lucide-react';
 import {
   PieChart,
@@ -36,6 +39,187 @@ import { REGIONS, CATEGORIES } from '../constants';
 import { CalculatorInputs, CalculationResults, Region } from '../types';
 import { calculateProfit } from '../utils';
 import { jsPDF } from 'jspdf';
+
+// ── Break-Even standalone calculator ─────────────────────────────────────────
+function BreakEvenCalculator({ regionSymbol }: { regionSymbol: string }) {
+  const [beCogs, setBeCogs]             = useState(6);
+  const [beShipping, setBeShipping]     = useState(2);
+  const [beTikTokFee, setBeTikTokFee]   = useState(8);
+  const [beCreatorFee, setBeCreatorFee] = useState(10);
+  const [copied, setCopied]             = useState(false);
+
+  // Formula: Break-even = (COGS + Shipping) / (1 - TikTokFee% - CreatorFee%)
+  const totalDeductionRate = (beTikTokFee + beCreatorFee) / 100;
+  const breakEven =
+    totalDeductionRate < 1
+      ? (beCogs + beShipping) / (1 - totalDeductionRate)
+      : null;
+
+  const handleCopy = () => {
+    if (breakEven === null) return;
+    const txt = `Break-Even Price: ${regionSymbol}${breakEven.toFixed(2)}\nProduct Cost: ${regionSymbol}${beCogs} | Shipping: ${regionSymbol}${beShipping} | TikTok Fee: ${beTikTokFee}% | Creator Commission: ${beCreatorFee}%\nCalculated at shopearnings.com`;
+    navigator.clipboard.writeText(txt).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <section
+      aria-labelledby="break-even-heading"
+      className="bg-white rounded-3xl p-8 border border-black/5 shadow-sm"
+    >
+      <h2
+        id="break-even-heading"
+        className="text-xl font-bold mb-2 flex items-center"
+      >
+        <div
+          aria-hidden="true"
+          className="w-10 h-10 rounded-xl bg-[#FF0050] flex items-center justify-center mr-4"
+        >
+          <Target className="text-white w-5 h-5" />
+        </div>
+        Break-Even Price Calculator
+      </h2>
+      <p className="text-sm text-gray-500 mb-6 ml-14">
+        Find the <strong>minimum selling price</strong> you need to avoid losing money — before you list your product.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <label htmlFor="be-cogs" className="block text-sm font-bold text-gray-700 mb-2">
+            Product Cost (COGS) ({regionSymbol})
+          </label>
+          <div className="relative">
+            <span aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">{regionSymbol}</span>
+            <input
+              id="be-cogs"
+              type="number"
+              value={beCogs}
+              onChange={(e) => setBeCogs(parseFloat(e.target.value) || 0)}
+              min="0"
+              step="0.01"
+              aria-label="Product cost for break-even calculation"
+              className="w-full bg-gray-50 border border-black/5 rounded-xl pl-8 pr-4 py-3 focus:ring-2 focus:ring-[#FF0050] focus:outline-none font-mono"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="be-shipping" className="block text-sm font-bold text-gray-700 mb-2">
+            Shipping Cost ({regionSymbol})
+          </label>
+          <div className="relative">
+            <span aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">{regionSymbol}</span>
+            <input
+              id="be-shipping"
+              type="number"
+              value={beShipping}
+              onChange={(e) => setBeShipping(parseFloat(e.target.value) || 0)}
+              min="0"
+              step="0.01"
+              aria-label="Shipping cost for break-even calculation"
+              className="w-full bg-gray-50 border border-black/5 rounded-xl pl-8 pr-4 py-3 focus:ring-2 focus:ring-[#FF0050] focus:outline-none font-mono"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="be-tiktok-fee" className="block text-sm font-bold text-gray-700 mb-2">
+            TikTok Platform Fee %
+          </label>
+          <div className="relative">
+            <input
+              id="be-tiktok-fee"
+              type="number"
+              value={beTikTokFee}
+              onChange={(e) => setBeTikTokFee(parseFloat(e.target.value) || 0)}
+              min="0"
+              max="100"
+              step="0.1"
+              aria-label="TikTok platform commission percentage for break-even calculation"
+              className="w-full bg-gray-50 border border-black/5 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#FF0050] focus:outline-none font-mono"
+            />
+            <span aria-hidden="true" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="be-creator-fee" className="block text-sm font-bold text-gray-700 mb-2">
+            Creator Commission %
+          </label>
+          <div className="relative">
+            <input
+              id="be-creator-fee"
+              type="number"
+              value={beCreatorFee}
+              onChange={(e) => setBeCreatorFee(parseFloat(e.target.value) || 0)}
+              min="0"
+              max="100"
+              step="0.1"
+              aria-label="Creator affiliate commission percentage for break-even calculation"
+              className="w-full bg-gray-50 border border-black/5 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#FF0050] focus:outline-none font-mono"
+            />
+            <span aria-hidden="true" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Result */}
+      <div
+        aria-live="polite"
+        aria-label="Break-even price result"
+        className={`rounded-2xl p-6 flex items-center justify-between ${
+          breakEven !== null ? 'bg-gradient-to-r from-[#FF0050]/10 to-[#FF0050]/5 border border-[#FF0050]/20' : 'bg-red-50 border border-red-200'
+        }`}
+      >
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
+            Break-Even Price
+          </p>
+          {breakEven !== null ? (
+            <>
+              <p className="text-4xl font-black text-[#FF0050]">
+                {regionSymbol}{breakEven.toFixed(2)}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Minimum selling price to cover all costs — no profit, no loss.
+              </p>
+            </>
+          ) : (
+            <p className="text-red-600 font-bold text-sm">
+              Fees exceed 100% — please reduce fee percentages.
+            </p>
+          )}
+        </div>
+        {breakEven !== null && (
+          <div className="text-right">
+            <p className="text-xs text-gray-400 mb-1">Formula used</p>
+            <p className="font-mono text-xs text-gray-600 bg-white px-3 py-2 rounded-lg border border-gray-100">
+              (COGS + Shipping) ÷ (1 − fees%)
+            </p>
+            <button
+              onClick={handleCopy}
+              aria-label="Copy break-even result to clipboard"
+              className="mt-3 text-xs font-bold text-[#FF0050] hover:underline flex items-center gap-1 ml-auto"
+            >
+              <Share2 className="w-3 h-3" aria-hidden="true" />
+              {copied ? 'Copied!' : 'Copy result'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Worked example hint */}
+      <div className="mt-4 p-3 bg-gray-50 rounded-xl">
+        <p className="text-xs text-gray-500">
+          <span className="font-bold text-gray-700">Example:</span> Product cost {regionSymbol}6 + Shipping {regionSymbol}2, TikTok fee 8%, Creator 10% →{' '}
+          <span className="font-bold text-gray-800">Break-even = {regionSymbol}{((6 + 2) / (1 - 0.18)).toFixed(2)}</span>
+        </p>
+      </div>
+    </section>
+  );
+}
 
 export default function CalculatorPage() {
   const [inputs, setInputs] = useState<CalculatorInputs>({
@@ -74,6 +258,8 @@ export default function CalculatorPage() {
 
   const [results, setResults] = useState<CalculationResults>(calculateProfit(inputs));
   const [isExporting, setIsExporting] = useState(false);
+  const [shareMsg, setShareMsg]       = useState('');
+  const [shareCopied, setShareCopied] = useState(false);
 
   useEffect(() => {
     const existing = document.getElementById('calculator-structured-data');
@@ -91,7 +277,7 @@ export default function CalculatorPage() {
           url: 'https://shopearnings.com/calculator',
           name: 'Free TikTok Shop Profit Calculator 2026 | US, UK & EU Fee Tool',
           description:
-            'Calculate TikTok Shop profit after all fees — commission, FBT fulfillment, affiliate commissions, and ad spend. Free tool for US, UK & EU sellers with 2026 fee structures.',
+            'Independent TikTok Shop profit calculator. Estimate net profit after platform fees, FBT fulfillment, affiliate commissions, and ad spend. Free tool for US, UK & EU sellers with 2026 fee structures. Not affiliated with TikTok.',
           inLanguage: 'en-US',
           breadcrumb: {
             '@type': 'BreadcrumbList',
@@ -160,15 +346,24 @@ export default function CalculatorPage() {
     setResults(calculateProfit(inputs));
   }, [inputs]);
 
+  // Update share message whenever key results change
+  useEffect(() => {
+    const rd = REGIONS[inputs.region];
+    const sym = rd.symbol;
+    setShareMsg(
+      `I calculated my TikTok Shop product profit using this tool shopearnings.com\n\nSelling Price: ${sym}${inputs.sellingPrice}\nProduct Cost: ${sym}${inputs.cogs}\nProfit: ${sym}${results.netProfit.toFixed(2)}\nMargin: ${results.profitMargin.toFixed(1)}%\n\nCheck your product here:\nshopearnings.com`
+    );
+  }, [inputs.sellingPrice, inputs.cogs, inputs.region, results.netProfit, results.profitMargin]);
+
   // ── Scenario presets ─────────────────────────────────────────────────────────
   const applyScenario = (scenario: 'worst' | 'best' | 'conservative') => {
     setInputs((prev) => {
       const basePrice = prev.sellingPrice;
       switch (scenario) {
-        case 'worst':       return { ...prev, expectedReturnRate: 15, affiliateCommissionPercent: 20, adCostPerUnit: basePrice * 0.3, conversionRate: 1.5, scenarioMode: 'worst' };
-        case 'best':        return { ...prev, expectedReturnRate: 2,  affiliateCommissionPercent: 5,  adCostPerUnit: basePrice * 0.1, conversionRate: 4,   scenarioMode: 'best' };
-        case 'conservative':return { ...prev, expectedReturnRate: 8,  affiliateCommissionPercent: 12, adCostPerUnit: basePrice * 0.2, conversionRate: 2.2, scenarioMode: 'conservative' };
-        default:            return prev;
+        case 'worst':        return { ...prev, expectedReturnRate: 15, affiliateCommissionPercent: 20, adCostPerUnit: basePrice * 0.3, conversionRate: 1.5, scenarioMode: 'worst' };
+        case 'best':         return { ...prev, expectedReturnRate: 2,  affiliateCommissionPercent: 5,  adCostPerUnit: basePrice * 0.1, conversionRate: 4,   scenarioMode: 'best' };
+        case 'conservative': return { ...prev, expectedReturnRate: 8,  affiliateCommissionPercent: 12, adCostPerUnit: basePrice * 0.2, conversionRate: 2.2, scenarioMode: 'conservative' };
+        default:             return prev;
       }
     });
   };
@@ -195,6 +390,22 @@ export default function CalculatorPage() {
       daysSinceFirstSale: 0,
       vatRegistered: region === 'UK' || region === 'EU' ? prev.vatRegistered : false,
     }));
+  };
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ text: shareMsg });
+      } else {
+        await navigator.clipboard.writeText(shareMsg);
+        setShareCopied(true);
+        setTimeout(() => setShareCopied(false), 2500);
+      }
+    } catch {
+      await navigator.clipboard.writeText(shareMsg);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2500);
+    }
   };
 
   // ── PDF Export ─────────────────────────────────────────────────────────────
@@ -237,6 +448,12 @@ export default function CalculatorPage() {
       normal(8); setTxt('#FFB3C7'); pdf.text(`Region: ${inputs.region}  |  Category: ${inputs.category}  |  Generated: ${dateStr}`, margin, 19);
       bold(8);   setTxt('#FFFFFF'); pdf.text('shopearnings.com', W - margin, 19, { align: 'right' });
       y = 34;
+
+      // Disclaimer on PDF
+      setFill('#FFF7ED'); pdf.rect(margin, y, contentW, 8, 'F');
+      normal(7); setTxt('#92400E');
+      pdf.text('Independent estimation tool — not affiliated with TikTok or TikTok Shop. Results are estimates only.', margin + 3, y + 5);
+      y += 12;
 
       const boxW = (contentW - 4) / 2;
       const kpis = [
@@ -363,7 +580,10 @@ export default function CalculatorPage() {
       newPageIfNeeded(22);
       setFill('#F9FAFB'); pdf.rect(margin, y, contentW, 18, 'F');
       normal(7); setTxt('#6B7280');
-      const lines = pdf.splitTextToSize('Disclaimer: This report is for estimation purposes only. Actual TikTok Shop payouts may vary based on returns, adjustments, and platform policy changes. Rates shown reflect 2026 fee structures.', contentW - 6);
+      const lines = pdf.splitTextToSize(
+        'Disclaimer: This report is for estimation purposes only and is generated by an independent third-party tool not affiliated with TikTok or TikTok Shop. Actual TikTok Shop payouts may vary based on returns, adjustments, and platform policy changes. Rates shown reflect 2026 fee structures based on publicly available information.',
+        contentW - 6
+      );
       pdf.text(lines, margin + 3, y + 5);
       y += 22;
 
@@ -372,7 +592,7 @@ export default function CalculatorPage() {
         pdf.setPage(p);
         setFill('#FF0050'); pdf.rect(0, H - 10, W, 10, 'F');
         normal(7); setTxt('#FFFFFF');
-        pdf.text('TikTok Shop Profit Calculator - shopearnings.com', margin, H - 3.5);
+        pdf.text('TikTok Shop Profit Calculator - shopearnings.com (Independent Tool)', margin, H - 3.5);
         pdf.text(`Page ${p} of ${totalPages}`, W - margin, H - 3.5, { align: 'right' });
       }
       pdf.save(`TikTok-Profit-Report-${inputs.region}-${now.toISOString().split('T')[0]}.pdf`);
@@ -411,7 +631,7 @@ export default function CalculatorPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* ── PAGE HEADER ───────────────────────────────────────────────────── */}
-        <header className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <header className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-4xl font-black mb-2">
               TikTok Shop Profit Calculator{' '}
@@ -429,6 +649,20 @@ export default function CalculatorPage() {
             Last Updated: March 2026
           </div>
         </header>
+
+        {/* ── EXPLANATION BANNER ────────────────────────────────────────────── */}
+        <div
+          role="note"
+          aria-label="About this calculator"
+          className="mb-6 bg-blue-50 border border-blue-200 rounded-2xl px-5 py-4 flex items-start gap-3"
+        >
+          <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <p className="text-sm text-blue-800 leading-relaxed">
+            <span className="font-bold">About this tool: </span>
+            This TikTok Shop profit calculator estimates seller earnings based on product cost, selling price, platform fees, and other expenses.{' '}
+            <span className="font-semibold">Results are estimates and actual profits may vary.</span> Fee structures are based on publicly available information and are subject to change — always verify current rates directly with TikTok Shop.
+          </p>
+        </div>
 
         {/* ── CALCULATOR LAYOUT ─────────────────────────────────────────────── */}
         <div className="flex flex-col lg:flex-row gap-8">
@@ -564,12 +798,12 @@ export default function CalculatorPage() {
                 </div>
               )}
 
-              {/* Fee Configuration */}
+              {/* Fee Configuration — removed "Official" language */}
               <div className="mt-8 pt-6 border-t border-black/5">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <Settings className="w-4 h-4 text-gray-400 mr-2" aria-hidden="true" />
-                    <span id="fee-config-label" className="text-sm font-bold text-gray-700">Use Official 2026 TikTok Fee Rates</span>
+                    <span id="fee-config-label" className="text-sm font-bold text-gray-700">Use 2026 TikTok Fee Rates</span>
                   </div>
                   <button onClick={() => handleToggle('useOfficialRates')}
                     role="switch" aria-checked={inputs.useOfficialRates} aria-labelledby="fee-config-label"
@@ -862,7 +1096,24 @@ export default function CalculatorPage() {
                 </div>
               )}
             </section>
-          </div>
+
+            {/* ── BREAK-EVEN CALCULATOR ─────────────────────────────────────── */}
+            <BreakEvenCalculator regionSymbol={regionData.symbol} />
+
+            {/* ── CALCULATOR DISCLAIMER ─────────────────────────────────────── */}
+            <div
+              role="note"
+              aria-label="Calculator disclaimer"
+              className="bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 flex items-start gap-3"
+            >
+              <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="text-sm text-amber-800 leading-relaxed">
+                <span className="font-bold">Disclaimer: </span>
+                This tool is not affiliated with TikTok or TikTok Shop and is provided for educational and estimation purposes only. All fee rates are based on publicly available information and are subject to change. Always verify current fees directly with TikTok Shop before making business decisions.
+              </p>
+            </div>
+
+          </div>{/* end left column */}
 
           {/* ── RIGHT COLUMN: RESULTS ─────────────────────────────────────────── */}
           <aside className="w-full lg:w-[40%]" aria-label="TikTok Shop profit calculation results">
@@ -922,12 +1173,28 @@ export default function CalculatorPage() {
                     </div>
                   </dl>
 
+                  {/* Download PDF Button */}
                   <button onClick={exportPDF} disabled={isExporting}
                     aria-label="Download TikTok Shop profit analysis as PDF report"
                     className={`w-full mt-10 bg-white text-black py-5 rounded-2xl font-black hover:bg-[#FF0050] hover:text-white transition-all flex items-center justify-center group ${isExporting ? 'opacity-60 cursor-not-allowed' : ''}`}>
                     <Download className={`w-5 h-5 mr-2 transition-transform ${isExporting ? 'animate-bounce' : 'group-hover:scale-110'}`} aria-hidden="true" />
                     {isExporting ? 'Generating PDF…' : 'Download Profit Report'}
                   </button>
+
+                  {/* ── SHARE BUTTON ──────────────────────────────────────────── */}
+                  <button
+                    onClick={handleShare}
+                    aria-label="Share your TikTok Shop profit calculation result"
+                    className="w-full mt-3 bg-white/10 hover:bg-white/20 text-white py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2 border border-white/10"
+                  >
+                    <Share2 className="w-5 h-5" aria-hidden="true" />
+                    {shareCopied ? '✓ Copied to clipboard!' : 'Share My Result'}
+                  </button>
+                  {shareCopied && (
+                    <p className="text-center text-xs text-gray-400 mt-2">
+                      Share message copied — paste it anywhere!
+                    </p>
+                  )}
                 </div>
               </div>
 

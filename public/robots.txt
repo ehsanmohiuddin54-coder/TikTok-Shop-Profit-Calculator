@@ -1,19 +1,22 @@
 # ══ robots.txt — shopearnings.com ══════════════════════════════════
 #
 # Place this file at: /public/robots.txt
-# It will be served at: https://shopearnings.com.com/robots.txt
-#
-# This file tells search engine crawlers which pages they can and cannot access.
-# Google, Bing, and all major crawlers check this file before indexing your site.
+# It will be served at: https://shopearnings.com/robots.txt
 #
 # ══ RULE: Allow all crawlers to index all public pages ════════════════════════
 
 User-agent: *
 Allow: /
 
-# ── Disallow non-public paths ──────────────────────────────────────────────────
-# These paths don't exist as public pages — blocking prevents crawl budget waste.
+# ── Explicitly allow all public pages ─────────────────────────────────────────
+Allow: /calculator
+Allow: /about
+Allow: /faq
+Allow: /disclaimer
+Allow: /privacy
+Allow: /terms
 
+# ── Disallow non-public paths ──────────────────────────────────────────────────
 Disallow: /src/
 Disallow: /node_modules/
 Disallow: /*.json$
@@ -22,9 +25,6 @@ Disallow: /*.ts$
 Disallow: /api/
 
 # ── Allow critical static assets crawlers need for rendering ──────────────────
-# Googlebot renders JavaScript — it needs access to JS, CSS, and images.
-# Never block these or Google cannot fully render your React SPA.
-
 Allow: /*.js
 Allow: /*.css
 Allow: /*.png
@@ -33,9 +33,6 @@ Allow: /*.ico
 Allow: /*.webp
 
 # ── Sitemap location ──────────────────────────────────────────────────────────
-# Tells all crawlers exactly where your sitemap is.
-# Also submit this URL directly in Google Search Console and Bing Webmaster Tools.
-
 Sitemap: https://shopearnings.com/sitemap.xml
 
 # ══ CRAWLER-SPECIFIC RULES ════════════════════════════════════════════════════

@@ -12,7 +12,6 @@ import {
   Download,
   Calculator,
   Target,
-  Award,
   Users,
   Percent,
   Truck,
@@ -20,7 +19,6 @@ import {
   TrendingDown,
   LineChart,
   RefreshCw,
-  Star,
   Clock,
   Lock,
   BookOpen,
@@ -76,7 +74,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           url: 'https://shopearnings.com/',
           name: 'TikTok Shop Profit Calculator 2026 — Free US, UK & EU Fee Tool',
           description:
-            'Free TikTok Shop profit calculator. Calculate net profit after platform commission, FBT fees, affiliate commissions, and ad spend for US, UK, and EU sellers.',
+            'Free TikTok Shop profit calculator. Calculate net profit after platform commission, FBT fees, affiliate commissions, and ad spend for US, UK, and EU sellers. Independent tool — not affiliated with TikTok.',
           inLanguage: 'en-US',
           isPartOf: { '@id': 'https://shopearnings.com/#website' },
           breadcrumb: {
@@ -107,7 +105,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           '@id': 'https://shopearnings.com/#app',
           name: 'TikTok Shop Profit Calculator 2026',
           description:
-            'Free TikTok Shop profit calculator for sellers in the US, UK, and EU. Calculate net profit after platform fees, affiliate commissions, FBT costs, and advertising spend with 2026 fee structures.',
+            'Free independent TikTok Shop profit calculator for sellers in the US, UK, and EU. Calculate net profit after platform fees, affiliate commissions, FBT costs, and advertising spend with 2026 fee structures. Not affiliated with TikTok.',
           applicationCategory: 'BusinessApplication',
           operatingSystem: 'Web',
           url: 'https://shopearnings.com',
@@ -233,20 +231,15 @@ export default function LandingPage({ onStart }: LandingPageProps) {
   ];
 
   return (
-    // Role="main" omitted here — App.tsx wraps this in <main>
     <div className="overflow-hidden bg-white">
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      {/*
-        SEO: H1 contains primary keyword "TikTok Shop Profit Calculator"
-        naturally. Section uses role="banner" semantics via placement inside <main>.
-      */}
       <section
         id="hero"
         aria-label="TikTok Shop Profit Calculator — Hero"
         className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8"
       >
-        {/* Decorative ambient blobs — aria-hidden so screen readers skip */}
+        {/* Decorative ambient blobs */}
         <div
           aria-hidden="true"
           className="absolute inset-0 overflow-hidden pointer-events-none -z-10"
@@ -256,7 +249,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
         </div>
 
         <div className="max-w-6xl mx-auto text-center">
-          {/* Keyword-rich badge — visible, readable, not hidden */}
+          {/* Keyword-rich badge */}
           <motion.p
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -267,10 +260,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
             Updated for 2026 · US, UK &amp; EU Fee Structures
           </motion.p>
 
-          {/*
-            H1 — primary keyword "TikTok Shop Profit Calculator" front-loaded.
-            "& Seller Fee Analyzer 2026" adds secondary keyword naturally.
-          */}
+          {/* H1 — primary keyword front-loaded */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -283,7 +273,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
             &amp; Seller Fee Analyzer 2026
           </motion.h1>
 
-          {/* Meta-description-quality paragraph — matches what's in index.html */}
+          {/* Descriptive paragraph */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -320,7 +310,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
             </button>
           </motion.div>
 
-          {/* Trust signals — visible text, good for E-E-A-T */}
+          {/* Trust signals */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -339,14 +329,20 @@ export default function LandingPage({ onStart }: LandingPageProps) {
               </span>
             ))}
           </motion.div>
+
+          {/* Independent tool notice — subtle but visible */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mt-5 text-xs text-gray-400"
+          >
+            Independent tool — not affiliated with or endorsed by TikTok or TikTok Shop.
+          </motion.p>
         </div>
       </section>
 
       {/* ── WHY SELLERS LOSE MONEY ───────────────────────────── */}
-      {/*
-        SEO: H2 uses secondary keyword "TikTok Shop Fees".
-        Content is substantive, readable — no keyword stuffing.
-      */}
       <section
         id="problem"
         aria-labelledby="problem-heading"
@@ -376,7 +372,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
                 you list is essential to staying profitable:
               </p>
 
-              {/* Fee list — semantic ul/li for accessibility and crawlability */}
+              {/* Fee list */}
               <ul className="space-y-2" aria-label="Hidden TikTok Shop fees">
                 {[
                   {
@@ -444,7 +440,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
               </div>
             </FadeIn>
 
-            {/* Live worked example — aria-label describes purpose */}
+            {/* Live worked example */}
             <FadeIn delay={0.12}>
               <figure
                 aria-label="Example TikTok Shop profit calculation showing a loss scenario"
@@ -500,10 +496,6 @@ export default function LandingPage({ onStart }: LandingPageProps) {
       </section>
 
       {/* ── FEE GUIDE ────────────────────────────────────────── */}
-      {/*
-        SEO: This section targets "TikTok Shop fee breakdown", "TikTok commission rates",
-        "TikTok Shop US UK EU fees" — all through real readable content.
-      */}
       <section
         id="fee-guide"
         aria-labelledby="fee-guide-heading"
@@ -523,8 +515,9 @@ export default function LandingPage({ onStart }: LandingPageProps) {
               TikTok Shop <span className="text-[#FF0050]">Fee Breakdown</span> by Region
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Official 2026 commission rates for US, UK, and EU5 markets — including
+              2026 commission rates for US, UK, and EU5 markets — including
               new-seller discounts, VAT treatment, and FBT fulfillment costs.
+              Based on publicly available fee information.
             </p>
           </FadeIn>
 
@@ -693,10 +686,6 @@ export default function LandingPage({ onStart }: LandingPageProps) {
       </section>
 
       {/* ── HOW TO CALCULATE ──────────────────────────────────── */}
-      {/*
-        SEO: Targets "how to calculate TikTok Shop profit" — a high-intent query.
-        Worked example with real numbers strengthens E-E-A-T.
-      */}
       <section
         id="how-to-calculate"
         aria-labelledby="how-to-heading"
@@ -933,104 +922,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────────────────────────── */}
-      {/*
-        SEO: E-E-A-T signal — real user reviews with named people and specific
-        outcomes. Structured as <blockquote> for semantic correctness.
-      */}
-      <section
-        id="trust"
-        aria-labelledby="testimonials-heading"
-        className="py-16 bg-black text-white"
-      >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          <FadeIn className="text-center mb-10">
-            <p className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FF0050]/20 text-[#FF0050] text-sm font-bold mb-4">
-              <Award className="w-3.5 h-3.5" aria-hidden="true" />
-              Used by TikTok Sellers in US, UK &amp; EU
-            </p>
-            <h2
-              id="testimonials-heading"
-              className="text-3xl md:text-4xl font-black mb-3"
-            >
-              What TikTok Shop Sellers Are Saying
-            </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">
-              Real feedback from sellers who discovered margin leaks they didn't
-              know existed until they used our profit calculator.
-            </p>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                name: 'Michael Chen',
-                role: 'Fashion Seller, US Market',
-                initials: 'MC',
-                quote:
-                  'Discovered I was losing money on my bestseller. After adjusting pricing with this tool, I turned a negative margin product into a 22% net margin.',
-              },
-              {
-                name: 'Sarah Johnson',
-                role: 'Beauty Brand, UK Market',
-                initials: 'SJ',
-                quote:
-                  'The UK commission calculator showed me exactly how VAT was eating my margins. Now I know precisely what price I need for a 20% net return.',
-              },
-              {
-                name: 'David Martinez',
-                role: 'Electronics Seller, EU Markets',
-                initials: 'DM',
-                quote:
-                  'Managing Germany, France, and Italy was a nightmare until I found this. Having all three EU fee structures in one place is a huge time saver.',
-              },
-            ].map((t, i) => (
-              <FadeIn key={i} delay={i * 0.1}>
-                <figure className="bg-white/5 rounded-2xl p-6 hover:bg-white/8 transition-colors duration-300 flex flex-col h-full">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      aria-hidden="true"
-                      className="w-11 h-11 rounded-full bg-[#FF0050] flex items-center justify-center font-bold text-sm flex-shrink-0"
-                    >
-                      {t.initials}
-                    </div>
-                    <figcaption>
-                      <p className="font-bold text-sm">{t.name}</p>
-                      <p className="text-gray-400 text-xs">{t.role}</p>
-                    </figcaption>
-                  </div>
-                  {/* Star rating — aria-label for screen readers */}
-                  <div
-                    className="flex gap-0.5 mb-3"
-                    aria-label="5 out of 5 stars"
-                    role="img"
-                  >
-                    {[...Array(5)].map((_, j) => (
-                      <Star
-                        key={j}
-                        className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                        aria-hidden="true"
-                      />
-                    ))}
-                  </div>
-                  <blockquote className="text-gray-300 text-sm leading-relaxed flex-1">
-                    <p>"{t.quote}"</p>
-                  </blockquote>
-                </figure>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── FAQ ──────────────────────────────────────────────── */}
-      {/*
-        SEO: FAQ content targets long-tail queries directly.
-        Uses <details>/<summary> pattern with motion for animation
-        while keeping native semantics.
-        aria-expanded on buttons for accessibility.
-      */}
       <section
         id="faq"
         aria-labelledby="faq-heading"
