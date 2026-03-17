@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calculator, Menu, X } from 'lucide-react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import CalculatorPage from './components/CalculatorPage';
 import AboutPage from './components/AboutPage';
@@ -9,26 +10,26 @@ import DisclaimerPage from './components/DisclaimerPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsOfServicePage from './components/TermsOfServicePage';
 
-type Page = 'home' | 'calculator' | 'about' | 'faq' | 'disclaimer' | 'privacy' | 'terms';
-
-export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+function AppInner() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navigate = (page: Page) => {
-    setCurrentPage(page);
+  const goTo = (path: string) => {
+    navigate(path);
     setIsMenuOpen(false);
     window.scrollTo(0, 0);
   };
 
-  // Nav links shown in the header
-  const navLinks: { label: string; page: Page }[] = [
-    { label: 'Home',       page: 'home' },
-    { label: 'Calculator', page: 'calculator' },
-    { label: 'About',      page: 'about' },
-    { label: 'FAQ',        page: 'faq' },
-    { label: 'Disclaimer', page: 'disclaimer' },
+  const navLinks = [
+    { label: 'Home',       path: '/' },
+    { label: 'Calculator', path: '/calculator' },
+    { label: 'About',      path: '/about' },
+    { label: 'FAQ',        path: '/faq' },
+    { label: 'Disclaimer', path: '/disclaimer' },
   ];
+
+  const currentPath = location.pathname;
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-[#1A1A1A] font-sans">
@@ -41,7 +42,7 @@ export default function App() {
             {/* Logo */}
             <div
               className="flex items-center cursor-pointer group"
-              onClick={() => navigate('home')}
+              onClick={() => goTo('/')}
             >
               <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform group-hover:bg-[#FF0050] group-hover:rotate-3">
                 <Calculator className="text-white w-6 h-6" />
@@ -53,12 +54,12 @@ export default function App() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-6">
-              {navLinks.map(({ label, page }) => (
+              {navLinks.map(({ label, path }) => (
                 <button
-                  key={page}
-                  onClick={() => navigate(page)}
+                  key={path}
+                  onClick={() => goTo(path)}
                   className={`relative text-sm font-medium transition-all duration-300 hover:scale-110 ${
-                    currentPage === page
+                    currentPath === path
                       ? 'text-[#FF0050] after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-[#FF0050] after:rounded-full'
                       : 'text-gray-600 hover:text-black'
                   }`}
@@ -67,7 +68,7 @@ export default function App() {
                 </button>
               ))}
               <button
-                onClick={() => navigate('calculator')}
+                onClick={() => goTo('/calculator')}
                 className="bg-black text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#FF0050] transition-all duration-300 hover:shadow-lg hover:shadow-[#FF0050]/20 hover:scale-105 active:scale-95 hover:rotate-1"
               >
                 Launch Calculator
@@ -96,10 +97,10 @@ export default function App() {
               className="md:hidden bg-white border-b border-black/5 overflow-hidden"
             >
               <div className="px-4 pt-2 pb-6 space-y-1">
-                {navLinks.map(({ label, page }) => (
+                {navLinks.map(({ label, path }) => (
                   <button
-                    key={page}
-                    onClick={() => navigate(page)}
+                    key={path}
+                    onClick={() => goTo(path)}
                     className="block w-full text-left px-3 py-4 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-lg transition-all hover:pl-6"
                   >
                     {label}
@@ -107,7 +108,7 @@ export default function App() {
                 ))}
                 <div className="pt-4">
                   <button
-                    onClick={() => navigate('calculator')}
+                    onClick={() => goTo('/calculator')}
                     className="w-full bg-black text-white px-5 py-4 rounded-xl text-center font-bold hover:bg-[#FF0050] transition-all hover:scale-[1.02] active:scale-95"
                   >
                     Launch Calculator
@@ -123,19 +124,22 @@ export default function App() {
       <main className="pt-16">
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentPage}
+            key={currentPath}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
           >
-            {currentPage === 'home'       && <LandingPage onStart={() => navigate('calculator')} />}
-            {currentPage === 'calculator' && <CalculatorPage />}
-            {currentPage === 'about'      && <AboutPage />}
-            {currentPage === 'faq'        && <FAQPage />}
-            {currentPage === 'disclaimer' && <DisclaimerPage />}
-            {currentPage === 'privacy'    && <PrivacyPolicyPage />}
-            {currentPage === 'terms'      && <TermsOfServicePage />}
+            <Routes>
+              <Route path="/"           element={<LandingPage onStart={() => goTo('/calculator')} />} />
+              <Route path="/calculator" element={<CalculatorPage />} />
+              <Route path="/about"      element={<AboutPage />} />
+              <Route path="/faq"        element={<FAQPage />} />
+              <Route path="/disclaimer" element={<DisclaimerPage />} />
+              <Route path="/privacy"    element={<PrivacyPolicyPage />} />
+              <Route path="/terms"      element={<TermsOfServicePage />} />
+              <Route path="*"           element={<LandingPage onStart={() => goTo('/calculator')} />} />
+            </Routes>
           </motion.div>
         </AnimatePresence>
       </main>
@@ -151,7 +155,7 @@ export default function App() {
             are based on publicly available information and are subject to change. Always verify
             current fees directly with TikTok Shop.{' '}
             <button
-              onClick={() => navigate('disclaimer')}
+              onClick={() => goTo('/disclaimer')}
               className="underline hover:text-[#FF0050] transition-colors font-medium"
             >
               Read full disclaimer
@@ -182,29 +186,27 @@ export default function App() {
               </p>
               {/* SEO keywords */}
               <div className="flex flex-wrap gap-2 text-xs text-gray-400">
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Profit Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Seller Profit Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Fee Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Earnings Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Revenue Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Commission Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Cost Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">Free TikTok Profit Calculator</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Calculator 2026</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">TikTok Shop Profit Calculator Online</span>
-                <span className="text-gray-300">•</span>
-                <span className="hover:text-[#FF0050] transition-colors cursor-default">Best TikTok Shop Profit Calculator</span>
+                {[
+                  'TikTok Shop Profit Calculator',
+                  'TikTok Shop Calculator',
+                  'TikTok Shop Calculator UK',
+                  'TikTok Shop Fee Calculator UK',
+                  'TikTok Shop Revenue Calculator',
+                  'TikTok Seller Profit Calculator',
+                  'TikTok Shop Fee Calculator',
+                  'TikTok Shop Earnings Calculator',
+                  'TikTok Shop Commission Calculator',
+                  'TikTok Shop Cost Calculator',
+                  'Free TikTok Profit Calculator',
+                  'TikTok Shop Calculator 2026',
+                  'TikTok Shop Profit Calculator Online',
+                  'Best TikTok Shop Profit Calculator',
+                ].map((kw, i, arr) => (
+                  <React.Fragment key={kw}>
+                    <span className="hover:text-[#FF0050] transition-colors cursor-default">{kw}</span>
+                    {i < arr.length - 1 && <span className="text-gray-300">•</span>}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
 
@@ -212,31 +214,19 @@ export default function App() {
             <div>
               <h4 className="font-bold mb-6 text-sm uppercase tracking-wider text-gray-400">Product</h4>
               <ul className="space-y-4">
-                <li>
-                  <button onClick={() => navigate('calculator')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    Calculator
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('home')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    Features
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('about')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    About Us
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('faq')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    FAQ
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('disclaimer')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    Disclaimer
-                  </button>
-                </li>
+                {[
+                  { label: 'Calculator', path: '/calculator' },
+                  { label: 'Features',   path: '/' },
+                  { label: 'About Us',   path: '/about' },
+                  { label: 'FAQ',        path: '/faq' },
+                  { label: 'Disclaimer', path: '/disclaimer' },
+                ].map(({ label, path }) => (
+                  <li key={label}>
+                    <button onClick={() => goTo(path)} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
+                      {label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -244,21 +234,17 @@ export default function App() {
             <div>
               <h4 className="font-bold mb-6 text-sm uppercase tracking-wider text-gray-400">Legal</h4>
               <ul className="space-y-4">
-                <li>
-                  <button onClick={() => navigate('privacy')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    Privacy Policy
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('terms')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    Terms of Service
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('disclaimer')} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
-                    Disclaimer
-                  </button>
-                </li>
+                {[
+                  { label: 'Privacy Policy',    path: '/privacy' },
+                  { label: 'Terms of Service',  path: '/terms' },
+                  { label: 'Disclaimer',        path: '/disclaimer' },
+                ].map(({ label, path }) => (
+                  <li key={label}>
+                    <button onClick={() => goTo(path)} className="text-gray-600 hover:text-[#FF0050] transition-colors hover:pl-1">
+                      {label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -266,15 +252,23 @@ export default function App() {
           <div className="border-t border-black/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">© 2026 TikTok Shop Profit Calculator by Ehsan Mohi Ud Din. All rights reserved.</p>
             <div className="flex items-center gap-4 text-xs text-gray-400">
-              <button onClick={() => navigate('disclaimer')} className="hover:text-[#FF0050] transition-colors">Disclaimer</button>
+              <button onClick={() => goTo('/disclaimer')} className="hover:text-[#FF0050] transition-colors">Disclaimer</button>
               <span>·</span>
-              <button onClick={() => navigate('privacy')} className="hover:text-[#FF0050] transition-colors">Privacy Policy</button>
+              <button onClick={() => goTo('/privacy')} className="hover:text-[#FF0050] transition-colors">Privacy Policy</button>
               <span>·</span>
-              <button onClick={() => navigate('terms')} className="hover:text-[#FF0050] transition-colors">Terms of Service</button>
+              <button onClick={() => goTo('/terms')} className="hover:text-[#FF0050] transition-colors">Terms of Service</button>
             </div>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppInner />
+    </BrowserRouter>
   );
 }
