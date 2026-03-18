@@ -10,7 +10,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  
 
     <meta name="theme-color" content="#FF0050" />
 
@@ -30,8 +29,6 @@
     />
 
     <meta name="robots" content="index, follow" />
-
-    <!-- Authorship -->
     <meta name="author" content="Ehsan Mohi Ud Din" />
 
     <!-- OPEN GRAPH -->
@@ -99,33 +96,6 @@
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock"
           }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://shopearnings.com/disclaimer",
-          "url": "https://shopearnings.com/disclaimer",
-          "name": "Disclaimer — Shopearnings.com",
-          "description": "Disclaimer for Shopearnings.com. Independent calculator tool not affiliated with TikTok or TikTok Shop.",
-          "inLanguage": "en-US",
-          "isPartOf": { "@id": "https://shopearnings.com/#website" }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://shopearnings.com/privacy",
-          "url": "https://shopearnings.com/privacy",
-          "name": "Privacy Policy — Shopearnings.com",
-          "description": "Privacy Policy for Shopearnings.com. No personal data collected or stored.",
-          "inLanguage": "en-US",
-          "isPartOf": { "@id": "https://shopearnings.com/#website" }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://shopearnings.com/terms",
-          "url": "https://shopearnings.com/terms",
-          "name": "Terms of Service — Shopearnings.com",
-          "description": "Terms of Service for Shopearnings.com. Independent TikTok Shop profit calculator.",
-          "inLanguage": "en-US",
-          "isPartOf": { "@id": "https://shopearnings.com/#website" }
         }
       ]
     }
@@ -134,5 +104,7 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- ✅ THIS WAS MISSING — critical for Vite to load your React app -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

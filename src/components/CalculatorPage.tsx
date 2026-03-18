@@ -48,7 +48,6 @@ function BreakEvenCalculator({ regionSymbol }: { regionSymbol: string }) {
   const [beCreatorFee, setBeCreatorFee] = useState(10);
   const [copied, setCopied]             = useState(false);
 
-  // Formula: Break-even = (COGS + Shipping) / (1 - TikTokFee% - CreatorFee%)
   const totalDeductionRate = (beTikTokFee + beCreatorFee) / 100;
   const breakEven =
     totalDeductionRate < 1
@@ -165,7 +164,6 @@ function BreakEvenCalculator({ regionSymbol }: { regionSymbol: string }) {
         </div>
       </div>
 
-      {/* Result */}
       <div
         aria-live="polite"
         aria-label="Break-even price result"
@@ -210,7 +208,6 @@ function BreakEvenCalculator({ regionSymbol }: { regionSymbol: string }) {
         )}
       </div>
 
-      {/* Worked example hint */}
       <div className="mt-4 p-3 bg-gray-50 rounded-xl">
         <p className="text-xs text-gray-500">
           <span className="font-bold text-gray-700">Example:</span> Product cost {regionSymbol}6 + Shipping {regionSymbol}2, TikTok fee 8%, Creator 10% →{' '}
@@ -346,7 +343,6 @@ export default function CalculatorPage() {
     setResults(calculateProfit(inputs));
   }, [inputs]);
 
-  // Update share message whenever key results change
   useEffect(() => {
     const rd = REGIONS[inputs.region];
     const sym = rd.symbol;
@@ -355,7 +351,6 @@ export default function CalculatorPage() {
     );
   }, [inputs.sellingPrice, inputs.cogs, inputs.region, results.netProfit, results.profitMargin]);
 
-  // ── Scenario presets ─────────────────────────────────────────────────────────
   const applyScenario = (scenario: 'worst' | 'best' | 'conservative') => {
     setInputs((prev) => {
       const basePrice = prev.sellingPrice;
@@ -449,7 +444,6 @@ export default function CalculatorPage() {
       bold(8);   setTxt('#FFFFFF'); pdf.text('shopearnings.com', W - margin, 19, { align: 'right' });
       y = 34;
 
-      // Disclaimer on PDF
       setFill('#FFF7ED'); pdf.rect(margin, y, contentW, 8, 'F');
       normal(7); setTxt('#92400E');
       pdf.text('Independent estimation tool — not affiliated with TikTok or TikTok Shop. Results are estimates only.', margin + 3, y + 5);
@@ -798,7 +792,7 @@ export default function CalculatorPage() {
                 </div>
               )}
 
-              {/* Fee Configuration — removed "Official" language */}
+              {/* Fee Configuration */}
               <div className="mt-8 pt-6 border-t border-black/5">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
@@ -1097,10 +1091,10 @@ export default function CalculatorPage() {
               )}
             </section>
 
-            {/* ── BREAK-EVEN CALCULATOR ─────────────────────────────────────── */}
+            {/* Break-Even Calculator */}
             <BreakEvenCalculator regionSymbol={regionData.symbol} />
 
-            {/* ── CALCULATOR DISCLAIMER ─────────────────────────────────────── */}
+            {/* Calculator Disclaimer */}
             <div
               role="note"
               aria-label="Calculator disclaimer"
@@ -1181,7 +1175,7 @@ export default function CalculatorPage() {
                     {isExporting ? 'Generating PDF…' : 'Download Profit Report'}
                   </button>
 
-                  {/* ── SHARE BUTTON ──────────────────────────────────────────── */}
+                  {/* Share Button */}
                   <button
                     onClick={handleShare}
                     aria-label="Share your TikTok Shop profit calculation result"
@@ -1214,7 +1208,8 @@ export default function CalculatorPage() {
                       </Pie>
                       <RechartsTooltip
                         contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                        formatter={(value?: number) => [`${regionData.symbol}${(value ?? 0).toFixed(2)}`, '']}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        formatter={((value: any) => [`${regionData.symbol}${Number(value ?? 0).toFixed(2)}`, '']) as any}
                       />
                     </PieChart>
                   </ResponsiveContainer>
